@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-nginx
+  name: {{ .Release.Name }}-nginx
 spec:
-  replicas: 1  # abhi 1 rakh, baad mein change karenge
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: my-nginx
+      app: nginx
   template:
     metadata:
       labels:
-        app: my-nginx
+        app: nginx
     spec:
       containers:
-      - name: nginx
-        image: nginx:1.25
-        ports:
-        - containerPort: 80
+        - name: nginx
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports:
+            - containerPort: 80
